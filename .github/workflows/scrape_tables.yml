@@ -1,0 +1,29 @@
+name: Playwright Table Scraper
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          playwright install chromium
+          playwright install-deps
+
+      # ✅ Requirement: Email address in the step name
+      - name: Run Scraper for 23f1000501@ds.study.iitm.ac.in
+        run: python scrape_task.py
