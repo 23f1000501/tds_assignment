@@ -1,0 +1,28 @@
+name: Daily DevSync Update
+
+on:
+  schedule:
+    # Runs at 04:30 UTC every day
+    - cron: '30 4 * * *'
+  workflow_dispatch: # Allows manual testing (Requirement 4)
+
+jobs:
+  automated-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Requirement: Include email in the step name
+      - name: Initialize Update for 23f1000501@ds.study.iitm.ac.in
+        run: |
+          date > last_update.txt
+          echo "Daily update for DevSync tracked." >> last_update.txt
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "23f1000501@ds.study.iitm.ac.in"
+          git config --local user.name "DevSync Automation"
+          git add last_update.txt
+          # Only commit if there are changes to avoid workflow errors
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: daily repository update [skip ci]" && git push)
