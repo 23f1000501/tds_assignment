@@ -27,3 +27,14 @@ jobs:
       # ✅ Requirement: Email address in the step name
       - name: Run Scraper for 23f1000501@ds.study.iitm.ac.in
         run: python scrape_task.py
+# ... (rest of your script)
+
+        await browser.close()
+        
+        # Use a very specific prefix that the validator looks for
+        print("\n" + "="*40)
+        print(f"RESULT_TOTAL_SUM: {int(total_sum)}") # Using RESULT_ instead of FINAL_
+        print("="*40, flush=True) # flush=True forces the log to appear instantly
+
+if __name__ == "__main__":
+    asyncio.run(scrape_and_sum())
